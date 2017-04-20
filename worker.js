@@ -4,20 +4,22 @@ const net = require('net');
 
 let i = 0;
 setInterval(() => {
-  console.log(`Message from worker: #${i++}`);
+  console.log(`keep alive: #${i++}`);
 }, 1000);
 
 
 const socket = net.connect(8888, '127.0.0.1');
 socket.on('readable', () => {
   const content = socket.read();
-  console.log(content.toString());
+  if (content) {
+    console.log('worker recieved', content.toString());
+  }
 })
 
-process.on('message', () => {
+process.on('message', message => {
   if (message !== 'kill-worker') return;
 
-  console.log('Recieved SIGTERM');
+  console.log('Recieved kill-worker');
   socket.end();
   socket.destroy();
   setTimeout(() => {
