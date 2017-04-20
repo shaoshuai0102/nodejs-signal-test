@@ -13,7 +13,8 @@ setTimeout(() => {
   console.log(`killing process(pid: ${worker.pid})`);
   clearInterval(timer);
   doNotSend = true;
-  process.kill(worker.pid, 'SIGTERM');
+  // process.kill(worker.pid, 'SIGTERM');
+  worker.send('kill-worker');
 }, 5000);
 
 const server = net.createServer();

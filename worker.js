@@ -14,7 +14,9 @@ socket.on('readable', () => {
   console.log(content.toString());
 })
 
-process.on('SIGTERM', () => {
+process.on('message', () => {
+  if (message !== 'kill-worker') return;
+
   console.log('Recieved SIGTERM');
   socket.end();
   socket.destroy();
