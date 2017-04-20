@@ -11,7 +11,9 @@ setInterval(() => {
 const socket = net.connect(8888, '127.0.0.1');
 socket.on('readable', () => {
   const content = socket.read();
-  console.log(content.toString());
+  if (content) {
+    console.log('recieved', content.toString());
+  }
 })
 
 process.on('SIGTERM', () => {
